@@ -1,0 +1,49 @@
+======================
+1. MyList
+======================
+Class MyList
+========
+Class MyList with the Public instance method with sorted method.
+
+Tests:
+
+    Import module:
+    -------------
+    >>> MyList = __import__('1-my_list').MyList
+
+    Create a new instance of BaseGeometry class:
+    >>> list_l = MyList()
+
+    Print an the empty method:
+    >>> list_l.print_sorted()
+    []
+
+    >>> print(list_l)
+    []
+
+    Append elements to the list and print them:
+    >>> list_l.append(3)
+    >>> list_l.append(27)
+    >>> list_l.append(49)
+    >>> list_l.append(15)
+
+    >>> list_l.print_sorted()
+    [3, 15, 27, 49]
+
+    >>> print(list_l)
+    [3, 27, 49, 15]
+
+    Append elements to the list and print them:
+    >>> list_l.append(-4)
+    >>> list_l.append(-5)
+    >>> list_l.append(-6)
+
+    >>> print(list_l)
+    [3, 27, 49, 15, -4, -5, -6]
+    >>> list_l.print_sorted()
+    [-6, -5, -4, 3, 15, 27, 49]
+
+    Clear the instance for an empty list:
+    >>> list_l.clear()
+    >>> list_l
+    []
