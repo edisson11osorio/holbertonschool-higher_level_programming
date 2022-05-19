@@ -1,31 +1,29 @@
 #!/usr/bin/node
-const process = require('process');
+const movieID = process.argv[2];
+const url = 'https://swapi-api.hbtn.io/api/films/' + movieID;
 const request = require('request');
-const episodeId = String(process.argv[2]);
-const requestURL = 'https://swapi-api.hbtn.io/api/films/';
-const filmURL = 'https://swapi-api.hbtn.io/api/films/' + episodeId + '/';
 
-request(requestURL, function (error, response, body) {
+request(url, function (error, response, body) {
   if (error) {
-    console.log(error);
+    console.error('error:', error);
   } else {
-    const jsonBodyFilms = JSON.parse(body).results;
-    const numberFilms = jsonBodyFilms.length;
-    for (let filmIdx = 0; filmIdx < numberFilms; filmIdx++) {
-      if (String(jsonBodyFilms[filmIdx].url) === filmURL) {
-        const lsCharacters = jsonBodyFilms[filmIdx].characters;
-        const numCharacters = lsCharacters.length;
-        for (let index = 0; index < numCharacters; index++) {
-          request(lsCharacters[index], function (error, response, body) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log(JSON.parse(body).name);
-            }
-          });
-        }
-        break;
-      }
-    }
+    const characterList = JSON.parse(body).characters;
+
+    const length = characterList.length;
+    CharacterRequest(0, characterList[0], characterList, length);
   }
 });
+
+function CharacterRequest (idx, urlChar, characters, limit) {
+  if (idx === limit) { return; }
+  request(urlChar, function (error, response, body) {
+    if (!error) {
+      const rbody = JSON.parse(body);
+      console.log(rbody.name);
+      idx++;
+      CharacterRequest(idx, characters[idx], characters, limit);
+    } else {
+      console.error('error:', error);
+    }
+  });
+}
